@@ -25,8 +25,7 @@ Thumbs.db
 *.sdf
 *.ldf
 obj/
-SearchIndex/
+.vs/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
-TODO.txt

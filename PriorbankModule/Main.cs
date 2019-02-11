@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using OpenQA.Selenium.Chrome;
 
 namespace PriorbankModule
 {
-    public static class Main
+    public class Main
     {
-        public static IEnumerable GetData()
+        public string GetData(ref string config)
         {
-            var dataItems = new List<BaseModel>();
-            dataItems.Add(new Income() { DateAndTime = DateTime.Now, Description = "Test Income", Summ = 100 });
-            dataItems.Add(new Spending() { DateAndTime = DateTime.Now, Description = "Test Spending", Summ = 100, Place = "Place" });
-            return dataItems;
+            var configObj = Serializer.Deserialize<Configuration>(config);
+            var dataItems = new List<Income>();
+            configObj.LastUpdate = DateTime.Now;
+            config = Serializer.Serialize<Configuration>(configObj);
+            return Serializer.Serialize<List<Income>>(dataItems);
         }
     }
 }
