@@ -49,8 +49,17 @@ namespace PriorbankModule
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].value='" + DateTime.Now.AddDays(-5).ToString("dd.MM.yyyy") + "'", dateFrom);
             var dateTo = driver.FindElement(By.CssSelector("[name='DateTo']"));
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].value='" + DateTime.Now.ToString("dd.MM.yyyy") + "'", dateTo);
-            dateTo.Submit();
-            driver.FindElements(By.CssSelector(".vpsk-info-body .k-grid[data-role='grid']")).Click();
+            //dateTo.Submit();
+            driver.FindElement(By.CssSelector("[name='btnFilterSubmit'][type=submit]")).Click();
+            
+            wait.Until((x) => x.FindElements(By.CssSelector(".vpsk-info-body .k-grid[data-role='grid']")).Any());
+            var gridsCount = driver.FindElements(By.CssSelector(".vpsk-info-body .k-grid[data-role='grid']")).Count;
+            var results = new List<string>();
+            for (int i = 0; i < gridsCount; i++)
+            {
+                results.Add((string)((IJavaScriptExecutor)driver).ExecuteScript(
+                    "return JSON.stringify(jQuery('.vpsk-info-body .k-grid[data-role=grid]').eq(arguments[0]).getKendoGrid().dataSource.data())", i));
+            }
             
             //driver.FindElement(By.CssSelector("[name='DateTo']")).SendKeys(DateTime.Now.ToString("dd.MM.yyyy"));
             //driver.FindElement(By.CssSelector("[name='DateTo']")).Submit();
