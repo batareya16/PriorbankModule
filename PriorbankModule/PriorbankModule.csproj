@@ -45,9 +45,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\PriorbankTransaction.cs" />
     <Compile Include="Income.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Entities\PriorbankLockedTransaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer.cs" />
   </ItemGroup>

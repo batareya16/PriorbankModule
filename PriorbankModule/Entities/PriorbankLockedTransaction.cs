@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PriorbankModule.Entities
 {
-    class PriorbankLockedTransaction
+    public class PriorbankLockedTransaction
     {
         public DateTime ATransDate { get; set; }
 
