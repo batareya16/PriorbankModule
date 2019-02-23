@@ -11,9 +11,9 @@ namespace PriorbankModule.Entities
 
         public string ATransDetails { get; set; }
 
-        public double ATransAmountString { get; set; }
+        public string ATransAmountString { get; set; }
 
-        public double AAmountString { get; set; }
+        public string AAmountString { get; set; }
 
         public long AAmount { get; set; }
 

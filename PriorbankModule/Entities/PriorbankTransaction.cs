@@ -11,13 +11,13 @@ namespace PriorbankModule.Entities
 
         public string TransDetails { get; set; }
 
-        public double AmountString { get; set; }
+        public string AmountString { get; set; }
 
         public DateTime PostingDate { get; set; }
 
-        public double FeeAmountString { get; set; }
+        public string FeeAmountString { get; set; }
 
-        public double AccountAmountString { get; set; }
+        public string AccountAmountString { get; set; }
 
         public string ContractCurr { get; set; }
 
