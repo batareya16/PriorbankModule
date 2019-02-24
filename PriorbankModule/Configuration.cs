@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Remoting;
 using System.Xml.Serialization;
-using System.IO;
 using PriorbankModule.Entities;
+using PriorbankModule.Common;
 
 namespace PriorbankModule
 {
@@ -35,6 +32,9 @@ namespace PriorbankModule
 
         [XmlElement(ElementName = "ЗаблТранзакции[_]")]
         public PriorbankLockedTransaction[] LockedTransactions = new PriorbankLockedTransaction[0];
+
+        [XmlElement(ElementName = "ПоследнПолучПриб[_]")]
+        public List<Income> LastGivenIncomes = new List<Income>();
         
         public static string GetConfiguration()
         {
