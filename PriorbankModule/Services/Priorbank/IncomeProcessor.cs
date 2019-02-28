@@ -26,13 +26,22 @@ namespace PriorbankModule.Services.Priorbank
 
         public List<Income> ProcessIncomes()
         {
-            var incomes = Mapper.Map<Income[]>(_cardOperations.Concat(_contractOperations)
+            IEnumerable<PriorbankTransaction> transactions = ExcludeDuplicatedTransactions(_cardOperations.Concat(_contractOperations));
+            var incomes = Mapper.Map<Income[]>(transactions
                 .Where(x =>
                     x.TransDate.Date >= _configuration.LastUpdate.Date &&
                     x.TransTime.TimeOfDay >= _configuration.LastUpdate.TimeOfDay));
 
             _configuration.LastUpdate = DateTime.Now;
             return incomes.ToList();
+        }
+
+        private IEnumerable<PriorbankTransaction> ExcludeDuplicatedTransactions(IEnumerable<PriorbankTransaction> receivedTransactions)
+        {
+            var lastGiven = Mapper.Map<IEnumerable<PriorbankTransaction>>(_configuration.LastGivenTransactions);
+            var result = receivedTransactions.Except(lastGiven);
+            _configuration.LastGivenTransactions = receivedTransactions.ToList();
+            return result;
         }
     }
 }

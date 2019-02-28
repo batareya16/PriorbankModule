@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using PriorbankModule.Services.Selenium;
@@ -66,7 +65,7 @@ namespace PriorbankModule.Services.Priorbank
             _driver.ClickElement(By.CssSelector("[data-link-action='history']"));
             _wait.WaitForAnyElement(By.CssSelector(".detailedreport-cards-filter [name='Periods.SelectedValue'][value='Period']"));
             _driver.ClickElement(By.CssSelector(".detailedreport-cards-filter [name='Periods.SelectedValue'][value='Period']"));
-            FillReportDateInput("DateFrom", DateTime.Now.AddDays(-5));
+            FillReportDateInput("DateFrom", _configuration.LastUpdate);
             FillReportDateInput("DateTo", DateTime.Now);
             _driver.ClickElement(By.CssSelector("[name='btnFilterSubmit'][type=submit]"));
         }

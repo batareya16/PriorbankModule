@@ -33,8 +33,8 @@ namespace PriorbankModule
         [XmlElement(ElementName = "ЗаблТранзакции[_]")]
         public PriorbankLockedTransaction[] LockedTransactions = new PriorbankLockedTransaction[0];
 
-        [XmlElement(ElementName = "ПоследнПолучПриб[_]")]
-        public List<Income> LastGivenIncomes = new List<Income>();
+        [XmlElement(ElementName = "ПоследнПолучТранз[_]")]
+        public List<PriorbankTransaction> LastGivenTransactions = new List<PriorbankTransaction>();
         
         public static string GetConfiguration()
         {
