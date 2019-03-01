@@ -43,5 +43,10 @@ namespace PriorbankModule.Services.Priorbank
             _configuration.LastGivenTransactions = receivedTransactions.ToList();
             return result;
         }
+
+        private IEnumerable<PriorbankLockedTransaction> ProcessLockedTransactions()
+        {
+
+        }
     }
 }

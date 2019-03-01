@@ -22,8 +22,8 @@ namespace PriorbankModule
             IParsingDataService parsingService = new ParsingService(driver.InitializeSeleniumWebDriver("C:\\"), ref configObj);
             IIncomeProcessor incomeProcessor = new IncomeProcessor(parsingService.ParseCardData(), ref configObj);
             var incomes = incomeProcessor.ProcessIncomes();
-            config = Serializer.Serialize<Configuration>(configObj);
-            return Serializer.Serialize<List<Income>>(incomes);
+            config = Serializer.Serialize(configObj);
+            return Serializer.Serialize(incomes);
         }
     }
 }

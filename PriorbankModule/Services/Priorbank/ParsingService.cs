@@ -49,10 +49,8 @@ namespace PriorbankModule.Services.Priorbank
             _driver.ClickElement(
                 _driver
                     .FindElements(By.ClassName("panel-cards-item"))
-                    .Where(el => el
-                        .FindElements(By.ClassName("panel-card-text"))
-                        .FirstOrDefault(x => x.Text == _configuration.CardName) != null)
-                    .FirstOrDefault());
+                    .FirstOrDefault(el => el.FindElements(By.ClassName("panel-card-text"))
+                                            .FirstOrDefault(x => x.Text == _configuration.CardName) != null));
         }
 
         private void WaitCardsHistory()

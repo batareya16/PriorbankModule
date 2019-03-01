@@ -7,8 +7,8 @@ namespace PriorbankModule.Common
     {
         public static string Serialize<T>(T obj)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            using (StringWriter writer = new StringWriter())
+            var serializer = new XmlSerializer(typeof(T));
+            using (var writer = new StringWriter())
             {
                 serializer.Serialize(writer, obj);
                 return writer.ToString();
@@ -17,8 +17,8 @@ namespace PriorbankModule.Common
 
         public static T Deserialize<T>(string @string)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            StringReader reader = new StringReader(@string);
+            var serializer = new XmlSerializer(typeof(T));
+            var reader = new StringReader(@string);
             return (T)serializer.Deserialize(reader);
         }
     }
