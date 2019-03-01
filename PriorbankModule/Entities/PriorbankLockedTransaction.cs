@@ -1,0 +1,27 @@
+﻿using System;
+
+namespace PriorbankModule.Entities
+{
+    public class PriorbankLockedTransaction
+    {
+        public DateTime ATransDate { get; set; }
+
+        public string ATransDetails { get; set; }
+
+        public string ATransAmountString { get; set; }
+
+        public string AAmountString { get; set; }
+
+        public long AAmount { get; set; }
+
+        public long ATransAmount { get; set; }
+
+        public string ATransCurr { get; set; }
+
+        public DateTime ATransTime { get; set; }
+
+        public string ContractCurr { get; set; }
+
+        public bool IsHce { get; set; }
+    }
+}

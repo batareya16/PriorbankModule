@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Collections;
-using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using PriorbankModule.Entities;
+using Newtonsoft.Json;
+using AutoMapper;
+using PriorbankModule.Common;
+using PriorbankModule.Services.Selenium;
+using PriorbankModule.Services.Priorbank;
 
 namespace PriorbankModule
 {
@@ -11,11 +16,14 @@ namespace PriorbankModule
     {
         public string GetData(ref string config)
         {
+            Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
             var configObj = Serializer.Deserialize<Configuration>(config);
-            var dataItems = new List<Income>();
-            configObj.LastUpdate = DateTime.Now;
+            ISeleniumDriver driver = new ChromeDriver();
+            IParsingDataService parsingService = new ParsingService(driver.InitializeSeleniumWebDriver("C:\\"), ref configObj);
+            IIncomeProcessor incomeProcessor = new IncomeProcessor(parsingService.ParseCardData(), ref configObj);
+            var incomes = incomeProcessor.ProcessIncomes();
             config = Serializer.Serialize<Configuration>(configObj);
-            return Serializer.Serialize<List<Income>>(dataItems);
+            return Serializer.Serialize<List<Income>>(incomes);
         }
     }
 }
