@@ -28,6 +28,7 @@ namespace PriorbankModule.Services.Priorbank
         {
             IEnumerable<PriorbankTransaction> transactions = ExcludeDuplicatedTransactions(_cardOperations.Concat(_contractOperations));
             var incomes = Mapper.Map<Income[]>(transactions
+                .Union(ProcessLockedTransactions())
                 .Where(x =>
                     x.TransDate.Date >= _configuration.LastUpdate.Date &&
                     x.TransTime.TimeOfDay >= _configuration.LastUpdate.TimeOfDay));
@@ -44,9 +45,14 @@ namespace PriorbankModule.Services.Priorbank
             return result;
         }
 
-        private IEnumerable<PriorbankLockedTransaction> ProcessLockedTransactions()
+        private IEnumerable<PriorbankTransaction> ProcessLockedTransactions()
         {
-
+            var prevLockedTransactions =
+                _configuration.LockedTransactions.Except(_configuration.LastGivenTransactions).ToList();
+            var currLockedTransactions = Mapper.Map<PriorbankTransaction[]>(_lockedTransactions)
+                .Except(prevLockedTransactions);
+            _configuration.LockedTransactions = prevLockedTransactions.Union(currLockedTransactions).ToArray();
+            return currLockedTransactions;
         }
     }
 }

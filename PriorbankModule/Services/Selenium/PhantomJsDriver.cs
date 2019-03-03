@@ -5,7 +5,7 @@ namespace PriorbankModule.Services.Selenium
 {
     sealed class PhantomJsDriver : ISeleniumDriver
     {
-        public IWebDriver InitializeSeleniumWebDriver(string binaryLocation)
+        public IWebDriver InitializeSeleniumWebDriver()
         {
             var service = PhantomJSDriverService.CreateDefaultService();
             service.HideCommandPromptWindow = true;

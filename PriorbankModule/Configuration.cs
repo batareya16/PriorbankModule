@@ -31,7 +31,7 @@ namespace PriorbankModule
         public DateTime LastUpdate = DateTime.Now;
 
         [XmlElement(ElementName = "ЗаблТранзакции[_]")]
-        public PriorbankLockedTransaction[] LockedTransactions = new PriorbankLockedTransaction[0];
+        public PriorbankTransaction[] LockedTransactions = new PriorbankTransaction[0];
 
         [XmlElement(ElementName = "ПоследнПолучТранз[_]")]
         public List<PriorbankTransaction> LastGivenTransactions = new List<PriorbankTransaction>();

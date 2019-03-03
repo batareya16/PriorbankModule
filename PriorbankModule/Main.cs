@@ -19,11 +19,11 @@ namespace PriorbankModule
             Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
             var configObj = Serializer.Deserialize<Configuration>(config);
             ISeleniumDriver driver = new ChromeDriver();
-            IParsingDataService parsingService = new ParsingService(driver.InitializeSeleniumWebDriver("C:\\"), ref configObj);
+            IParsingDataService parsingService = new ParsingService(driver.InitializeSeleniumWebDriver(), ref configObj);
             IIncomeProcessor incomeProcessor = new IncomeProcessor(parsingService.ParseCardData(), ref configObj);
             var incomes = incomeProcessor.ProcessIncomes();
-            config = Serializer.Serialize(configObj);
-            return Serializer.Serialize(incomes);
+            config = Serializer.Serialize<Configuration>(configObj);
+            return Serializer.Serialize<List<Income>>(incomes);
         }
     }
 }
