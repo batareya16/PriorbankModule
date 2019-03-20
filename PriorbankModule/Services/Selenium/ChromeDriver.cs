@@ -2,27 +2,39 @@
 using OpenQA.Selenium.Chrome;
 using SeleniumChromeDriver = OpenQA.Selenium.Chrome.ChromeDriver;
 using System.Drawing;
+using System.IO;
 
 namespace PriorbankModule.Services.Selenium
 {
     sealed class ChromeDriver : ISeleniumDriver
     {
-        public IWebDriver InitializeSeleniumWebDriver(string binaryLocation)
+        public const string ChromeDriverExeFileName = "chromedriver.exe";
+
+        public IWebDriver InitializeSeleniumWebDriver()
         {
             ChromeDriverService service = ChromeDriverService.CreateDefaultService();
             service.HideCommandPromptWindow = true;
-            var options = new ChromeOptions() { BinaryLocation = binaryLocation };
+            var options = new ChromeOptions() { BinaryLocation = Path.GetDirectoryName(GetChromeDriverExePath()) };
 
-            //--Headless do not use. It's may spawn recaptcha field
+            //--Headless may spawn recaptcha field (Need more tests)
             options.AddArguments(
+                "--headless",
                 "--silent-launch",
-                "--window-position=-0,0",
-                "--no-startup-window",
-                "--log-level=3");
+                "--disable-plugins-discovery",
+                "--incognito",
+                "--window-position=-2000,0",
+                "--no-startup-window");
 
             var driver = new SeleniumChromeDriver(service, options);
-            //driver.Manage().Window.Position = new Point(-2000, 0);
+            driver.Manage().Window.Position = new Point(-2000, 0);
             return driver;
+        }
+
+        private string GetChromeDriverExePath()
+        {
+            return Path.Combine(
+                Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),
+                ChromeDriverExeFileName);
         }
     }
 }

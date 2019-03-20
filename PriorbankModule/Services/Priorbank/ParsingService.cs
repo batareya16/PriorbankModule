@@ -22,17 +22,24 @@ namespace PriorbankModule.Services.Priorbank
 
         public List<string> ParseCardData()
         {
+            OpenLoginPage();
+            if (IsExistRecaptcha()) return new List<string>();
             LoginIntoAccount();
             WaitCardsList();
             SelectCard();
+            WaitCardsHistoryLink();
             GetCardHistory();
             WaitCardsHistory();
             return GetCardHistoryData();
         }
 
-        private void LoginIntoAccount()
+        private void OpenLoginPage()
         {
             _driver.Url = "https://www.prior.by/web/";
+        }
+
+        private void LoginIntoAccount()
+        {
             _driver.SendKeysInto(By.Name("UserName"), _configuration.Login);
             _driver.SendKeysInto(By.Name("Password"), _configuration.Password);
             _driver.FindElement(By.Name("Password")).Submit();
@@ -44,20 +51,28 @@ namespace PriorbankModule.Services.Priorbank
             _wait.WaitForAnyElement(By.ClassName("panel-card-text"));
         }
 
+        private bool IsExistRecaptcha()
+        {
+            return _driver.ElementsCount(By.ClassName("recaptcha-checkbox")) > 0;
+        }
+
         private void SelectCard()
         {
             _driver.ClickElement(
                 _driver
                     .FindElements(By.ClassName("panel-cards-item"))
-                    .Where(el => el
-                        .FindElements(By.ClassName("panel-card-text"))
-                        .FirstOrDefault(x => x.Text == _configuration.CardName) != null)
-                    .FirstOrDefault());
+                    .FirstOrDefault(el => el.FindElements(By.ClassName("panel-card-text"))
+                                            .FirstOrDefault(x => x.Text == _configuration.CardName) != null));
         }
 
         private void WaitCardsHistory()
         {
             _wait.WaitForAnyElement(By.CssSelector(".vpsk-info-body .k-grid[data-role='grid']"));
+        }
+
+        private void WaitCardsHistoryLink()
+        {
+            _wait.WaitForAnyElement(By.CssSelector("[data-link-action='history']"));
         }
 
         private void GetCardHistory()

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections;
 
 namespace PriorbankModule.Entities
 {
-    public class PriorbankLockedTransaction
+    public class PriorbankLockedTransaction : IEqualityComparer
     {
         public DateTime ATransDate { get; set; }
 
@@ -23,5 +24,20 @@ namespace PriorbankModule.Entities
         public string ContractCurr { get; set; }
 
         public bool IsHce { get; set; }
+
+        public bool Equals(object x, object y)
+        {
+            var trans1 = (PriorbankLockedTransaction)x;
+            var trans2 = (PriorbankLockedTransaction)y;
+            return trans1.ATransDate == trans2.ATransDate
+                   && trans1.ATransTime == trans2.ATransTime
+                   && trans1.ATransDetails == trans2.ATransDetails
+                   && trans1.ATransAmountString == trans2.ATransAmountString;
+        }
+
+        public int GetHashCode(object obj)
+        {
+            return base.GetHashCode();
+        }
     }
 }

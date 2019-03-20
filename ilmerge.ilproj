@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <!--Switches-->
+  <CopyAttributes Enabled="true" />
+  <UnionDuplicates Enabled="false" />
+  <Debug Enabled="1" />
+  <Internalize Enabled="false" />
+  <MergeXml Enabled="false" />
+  <!--Signing-->
+  <Sign Enabled="false" Delay="false"></Sign>
+  <!--Logging-->
+  <Log Enabled="false"></Log>
+  <!--Assemblies-->
+  <Assemblies>
+    <Assembly>\\Mac\Home\Documents\Visual Studio 2010\Projects\PriorbankModule\PriorbankModule\bin\Release\PriorbankModule.dll</Assembly>
+    <Assembly>\\Mac\Home\Documents\Visual Studio 2010\Projects\PriorbankModule\PriorbankModule\bin\Release\Newtonsoft.Json.dll</Assembly>
+    <Assembly>\\Mac\Home\Documents\Visual Studio 2010\Projects\PriorbankModule\PriorbankModule\bin\Release\AutoMapper.Net4.dll</Assembly>
+    <Assembly>\\Mac\Home\Documents\Visual Studio 2010\Projects\PriorbankModule\PriorbankModule\bin\Release\AutoMapper.dll</Assembly>
+    <Assembly>\\Mac\Home\Documents\Visual Studio 2010\Projects\PriorbankModule\PriorbankModule\bin\Release\WebDriver.dll</Assembly>
+    <Primary>\\Mac\Home\Documents\Visual Studio 2010\Projects\PriorbankModule\PriorbankModule\bin\Release\PriorbankModule.dll</Primary>
+  </Assemblies>
+  <!--Output-->
+  <OutputAssembly>\\Mac\Home\Documents\Visual Studio 2010\Projects\PriorbankModule\PriorbankModule.dll</OutputAssembly>
+  <!--.NET Framework-->
+  <Framework>.NET Framework v4 Full</Framework>
+  <!--Merge Engine-->
+  <Engine Name="ILMerge" />
+</Settings>
