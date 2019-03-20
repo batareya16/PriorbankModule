@@ -59,12 +59,5 @@ namespace PriorbankModule.Properties {
                 resourceCulture = value;
             }
         }
-        
-        internal static byte[] chromedriver {
-            get {
-                object obj = ResourceManager.GetObject("chromedriver", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

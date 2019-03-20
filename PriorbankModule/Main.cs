@@ -18,10 +18,19 @@ namespace PriorbankModule
         {
             Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
             var configObj = Serializer.Deserialize<Configuration>(config);
-            ISeleniumDriver driver = new ChromeDriver();
-            IParsingDataService parsingService = new ParsingService(driver.InitializeSeleniumWebDriver(), ref configObj);
-            IIncomeProcessor incomeProcessor = new IncomeProcessor(parsingService.ParseCardData(), ref configObj);
-            var incomes = incomeProcessor.ProcessIncomes();
+            IWebDriver driver = null;
+            List<Income> incomes = new List<Income>();
+            try
+            {
+                driver = new ChromeDriver().InitializeSeleniumWebDriver();
+                IParsingDataService parsingService = new ParsingService(driver, ref configObj);
+                IIncomeProcessor incomeProcessor = new IncomeProcessor(parsingService.ParseCardData(), ref configObj);
+                incomes = incomeProcessor.ProcessIncomes();
+            }
+            finally
+            {
+                if (driver != null) driver.Quit();
+            }
             config = Serializer.Serialize<Configuration>(configObj);
             return Serializer.Serialize<List<Income>>(incomes);
         }

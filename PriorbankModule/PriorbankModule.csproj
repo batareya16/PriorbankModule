@@ -30,6 +30,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
@@ -57,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AmountHelper.cs" />
     <Compile Include="Common\MappingProfile.cs" />
     <Compile Include="Entities\PriorbankTransaction.cs" />
     <Compile Include="Entities\Income.cs" />
@@ -76,7 +80,6 @@
     <Compile Include="Services\Priorbank\ParsingService.cs" />
     <Compile Include="Services\Selenium\ChromeDriver.cs" />
     <Compile Include="Services\Selenium\ISeleniumDriver.cs" />
-    <Compile Include="Services\Selenium\PhantomJsDriver.cs" />
     <Compile Include="Services\Selenium\SeleniumHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -90,7 +93,6 @@
       <Link>AutoMapper.Net4.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Resources\chromedriver.exe" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

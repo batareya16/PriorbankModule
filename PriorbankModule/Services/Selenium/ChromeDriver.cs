@@ -12,14 +12,9 @@ namespace PriorbankModule.Services.Selenium
 
         public IWebDriver InitializeSeleniumWebDriver()
         {
-            if (!File.Exists(getChromeDriverExePath()))
-            {
-                File.WriteAllBytes(getChromeDriverExePath(), Properties.Resources.chromedriver);
-            }
-
             ChromeDriverService service = ChromeDriverService.CreateDefaultService();
             service.HideCommandPromptWindow = true;
-            var options = new ChromeOptions();
+            var options = new ChromeOptions() { BinaryLocation = Path.GetDirectoryName(GetChromeDriverExePath()) };
 
             //--Headless may spawn recaptcha field (Need more tests)
             options.AddArguments(
@@ -35,7 +30,7 @@ namespace PriorbankModule.Services.Selenium
             return driver;
         }
 
-        private string getChromeDriverExePath()
+        private string GetChromeDriverExePath()
         {
             return Path.Combine(
                 Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),
