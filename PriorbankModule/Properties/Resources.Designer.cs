@@ -59,5 +59,11 @@ namespace PriorbankModule.Properties {
                 resourceCulture = value;
             }
         }
+
+        internal static string ImageBase64 {
+            get {
+                return ResourceManager.GetString("ImageBase64", resourceCulture);
+            }
+        }
     }
 }

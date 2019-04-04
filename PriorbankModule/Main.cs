@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using PriorbankModule.Entities;
-using Newtonsoft.Json;
-using AutoMapper;
 using PriorbankModule.Common;
 using PriorbankModule.Services.Selenium;
 using PriorbankModule.Services.Priorbank;
@@ -16,7 +11,6 @@ namespace PriorbankModule
     {
         public string GetData(ref string config)
         {
-            Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
             var configObj = Serializer.Deserialize<Configuration>(config);
             IWebDriver driver = null;
             List<Income> incomes = new List<Income>();

@@ -4,6 +4,7 @@ using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using PriorbankModule.Services.Selenium;
+using PriorbankModule.Entities;
 
 namespace PriorbankModule.Services.Priorbank
 {
@@ -20,17 +21,17 @@ namespace PriorbankModule.Services.Priorbank
             _wait = new WebDriverWait(driver, new TimeSpan(0, 0, 30));
         }
 
-        public List<string> ParseCardData()
+        public ParsedDataEntity ParseCardData()
         {
             OpenLoginPage();
-            if (IsExistRecaptcha()) return new List<string>();
+            if (IsExistRecaptcha()) return new ParsedDataEntity();
             LoginIntoAccount();
             WaitCardsList();
             SelectCard();
             WaitCardsHistoryLink();
             GetCardHistory();
             WaitCardsHistory();
-            return GetCardHistoryData();
+            return new ParsedDataEntity() { SerializedData = GetCardHistoryData(), ReceivedDataFlags = GetDataTypes() };
         }
 
         private void OpenLoginPage()
@@ -101,6 +102,13 @@ namespace PriorbankModule.Services.Priorbank
                     "return JSON.stringify(jQuery('.vpsk-info-body .k-grid[data-role=grid]').eq(arguments[0]).getKendoGrid().dataSource.data())", i));
             }
             return results;
+        }
+
+        private PriorbankReceivedData GetDataTypes()
+        {
+            return (_driver.IsExistElementByInnerText("Заблокированные суммы по карте") ? PriorbankReceivedData.LockedOperations : PriorbankReceivedData.None)
+                 | (_driver.IsExistElementByInnerText("Операции по контракту") ? PriorbankReceivedData.ContractOperations : PriorbankReceivedData.None)
+                 | (_driver.IsExistElementByInnerText("Операции по карте") ? PriorbankReceivedData.CardOperations : PriorbankReceivedData.None);
         }
     }
 }

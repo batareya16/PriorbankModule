@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using PriorbankModule.Entities;
 using Newtonsoft.Json;
-using AutoMapper;
 using PriorbankModule.Common;
 
 namespace PriorbankModule.Services.Priorbank
@@ -16,18 +15,25 @@ namespace PriorbankModule.Services.Priorbank
         private readonly PriorbankTransaction[] _cardOperations;
         private Configuration _configuration;
 
-        public IncomeProcessor(List<string> serializedCardHistory, ref Configuration configuration)
+        public IncomeProcessor(ParsedDataEntity parsedDataEntity, ref Configuration configuration)
         {
-            _lockedTransactions = JsonConvert.DeserializeObject<PriorbankLockedTransaction[]>(serializedCardHistory[0]);
-            _contractOperations = JsonConvert.DeserializeObject<PriorbankTransaction[]>(serializedCardHistory[1]);
-            _cardOperations = JsonConvert.DeserializeObject<PriorbankTransaction[]>(serializedCardHistory[2]);
+            var iterator = 0;
+            _lockedTransactions = parsedDataEntity.ReceivedDataFlags.HasFlag(PriorbankReceivedData.LockedOperations)
+                ? JsonConvert.DeserializeObject<PriorbankLockedTransaction[]>(parsedDataEntity.SerializedData[iterator++])
+                : new PriorbankLockedTransaction[0];
+            _contractOperations = parsedDataEntity.ReceivedDataFlags.HasFlag(PriorbankReceivedData.ContractOperations)
+                ? JsonConvert.DeserializeObject<PriorbankTransaction[]>(parsedDataEntity.SerializedData[iterator++])
+                : new PriorbankTransaction[0];
+            _cardOperations = parsedDataEntity.ReceivedDataFlags.HasFlag(PriorbankReceivedData.CardOperations)
+                ? JsonConvert.DeserializeObject<PriorbankTransaction[]>(parsedDataEntity.SerializedData[iterator++])
+                : new PriorbankTransaction[0];
             _configuration = configuration;
         }
 
         public List<Income> ProcessIncomes()
         {
             IEnumerable<PriorbankTransaction> transactions = ExcludeDuplicatedTransactions(_cardOperations.Concat(_contractOperations));
-            var incomes = Mapper.Map<Income[]>(transactions
+            var incomes = ConversionHelper.Convert(transactions
                 .Union(ProcessLockedTransactions().Select(x =>
                 {
                     x.AccountAmountString = AmountHelper.ReverseAccountAmountString(x.AccountAmountString);
@@ -43,8 +49,7 @@ namespace PriorbankModule.Services.Priorbank
 
         private IEnumerable<PriorbankTransaction> ExcludeDuplicatedTransactions(IEnumerable<PriorbankTransaction> receivedTransactions)
         {
-            var lastGiven = Mapper.Map<IEnumerable<PriorbankTransaction>>(_configuration.LastGivenTransactions);
-            var result = receivedTransactions.Except(lastGiven);
+            var result = receivedTransactions.Except(_configuration.LastGivenTransactions);
             _configuration.LastGivenTransactions = receivedTransactions.ToList();
             return result;
         }
@@ -54,7 +59,7 @@ namespace PriorbankModule.Services.Priorbank
             var prevLockedTransactions = _configuration.LockedTransactions == null
                 ? new List<PriorbankTransaction>()
                 : _configuration.LockedTransactions.Except(_configuration.LastGivenTransactions).ToList();
-            var currLockedTransactions = Mapper.Map<PriorbankTransaction[]>(_lockedTransactions)
+            var currLockedTransactions = ConversionHelper.Convert(_lockedTransactions)
                 .Except(prevLockedTransactions);
             _configuration.LockedTransactions = prevLockedTransactions.Union(currLockedTransactions).ToArray();
             return currLockedTransactions;
