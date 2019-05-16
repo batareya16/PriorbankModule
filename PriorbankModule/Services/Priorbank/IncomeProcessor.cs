@@ -40,8 +40,9 @@ namespace PriorbankModule.Services.Priorbank
                     return x;
                 }))
                 .Where(x =>
-                    x.TransDate.Date >= _configuration.LastUpdate.Date &&
-                    x.TransTime.TimeOfDay >= _configuration.LastUpdate.TimeOfDay));
+                    x.TransDate.Date > _configuration.LastUpdate.Date ||
+                    (x.TransDate.Date == _configuration.LastUpdate.Date
+                        && x.TransTime.TimeOfDay >= _configuration.LastUpdate.TimeOfDay)));
 
             _configuration.LastUpdate = DateTime.Now;
             return incomes.ToList();
