@@ -30,5 +30,10 @@ namespace PriorbankModule.Services.Selenium
         {
             driver.FindElement(by).SendKeys(keys);
         }
+
+        public static bool IsExistElementByInnerText(this IWebDriver driver, string innerText)
+        {
+            return driver.FindElements(By.XPath(string.Format("//*[contains(text(), '{0}')]", innerText))).Any();
+        }
     }
 }

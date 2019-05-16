@@ -29,19 +29,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AutoMapper.Net4, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -61,7 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AmountHelper.cs" />
-    <Compile Include="Common\MappingProfile.cs" />
+    <Compile Include="Common\ConversionHelper.cs" />
+    <Compile Include="Entities\ParsedDataEntity.cs" />
     <Compile Include="Entities\PriorbankTransaction.cs" />
     <Compile Include="Entities\Income.cs" />
     <Compile Include="Configuration.cs" />
@@ -78,6 +72,7 @@
     <Compile Include="Services\Priorbank\IncomeProcessor.cs" />
     <Compile Include="Services\Priorbank\IParsingDataService.cs" />
     <Compile Include="Services\Priorbank\ParsingService.cs" />
+    <Compile Include="Services\Priorbank\PriorbankReceivedData.cs" />
     <Compile Include="Services\Selenium\ChromeDriver.cs" />
     <Compile Include="Services\Selenium\ISeleniumDriver.cs" />
     <Compile Include="Services\Selenium\SeleniumHelper.cs" />
@@ -87,12 +82,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
-      <Link>AutoMapper.Net4.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

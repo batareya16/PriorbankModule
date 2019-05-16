@@ -6,7 +6,7 @@ using System.IO;
 
 namespace PriorbankModule.Services.Selenium
 {
-    sealed class ChromeDriver : ISeleniumDriver
+    public sealed class ChromeDriver : ISeleniumDriver
     {
         public const string ChromeDriverExeFileName = "chromedriver.exe";
 
@@ -16,14 +16,14 @@ namespace PriorbankModule.Services.Selenium
             service.HideCommandPromptWindow = true;
             var options = new ChromeOptions() { BinaryLocation = Path.GetDirectoryName(GetChromeDriverExePath()) };
 
-            //--Headless may spawn recaptcha field (Need more tests)
             options.AddArguments(
                 "--headless",
                 "--silent-launch",
                 "--disable-plugins-discovery",
                 "--incognito",
                 "--window-position=-2000,0",
-                "--no-startup-window");
+                "--no-startup-window",
+                "--disable-user-media-security");
 
             var driver = new SeleniumChromeDriver(service, options);
             driver.Manage().Window.Position = new Point(-2000, 0);

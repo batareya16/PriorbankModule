@@ -25,7 +25,7 @@ namespace PriorbankModule.Entities
 
         public bool IsHce { get; set; }
 
-        public bool Equals(object x, object y)
+        public new bool Equals(object x, object y)
         {
             var trans1 = (PriorbankLockedTransaction)x;
             var trans2 = (PriorbankLockedTransaction)y;
