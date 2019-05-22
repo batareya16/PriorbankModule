@@ -5,6 +5,7 @@ using System.Text;
 using PriorbankModule.Entities;
 using Newtonsoft.Json;
 using PriorbankModule.Common;
+using PriorbankModule.Properties;
 
 namespace PriorbankModule.Services.Priorbank
 {
@@ -44,8 +45,25 @@ namespace PriorbankModule.Services.Priorbank
                     (x.TransDate.Date == _configuration.LastUpdate.Date
                         && x.TransTime.TimeOfDay >= _configuration.LastUpdate.TimeOfDay)));
 
+            if (_configuration.FirstLaunch && AmountHelper.InitialBudgetAmount != 0)
+            {
+                _configuration.FirstLaunch = false;
+                incomes.Add(CreateInitialIncome(_configuration.LastUpdate));
+            }
+
             _configuration.LastUpdate = DateTime.Now;
             return incomes.ToList();
+        }
+
+        private Income CreateInitialIncome(DateTime date)
+        {
+            return new Income()
+            {
+                DateAndTime = date,
+                Description = Resources.InitialIncomeDescription,
+                Place = Resources.InitialIncomeDescription,
+                Summ = AmountHelper.InitialBudgetAmount
+            };
         }
 
         private IEnumerable<PriorbankTransaction> ExcludeDuplicatedTransactions(IEnumerable<PriorbankTransaction> receivedTransactions)

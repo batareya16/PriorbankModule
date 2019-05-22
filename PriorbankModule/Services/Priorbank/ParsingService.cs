@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using PriorbankModule.Services.Selenium;
 using PriorbankModule.Entities;
+using PriorbankModule.Common;
 
 namespace PriorbankModule.Services.Priorbank
 {
@@ -47,6 +48,17 @@ namespace PriorbankModule.Services.Priorbank
             _driver.Url = "https://www.prior.by";
         }
 
+        private void SetInitialAmount()
+        {
+            if (_configuration.FirstLaunch)
+            {
+                AmountHelper.InitialBudgetAmount = AmountHelper.GetAccountAmount(
+                    ((IJavaScriptExecutor)_driver).ExecuteScript(string.Format(
+                        "return jQuery('.bank-cards-list.manager [data-card-name=\"{0}\"]').closest('tr').find('.total-amount .sum').html()",
+                        _configuration.CardName)).ToString());
+            }
+        }
+
         private void WaitCardsList()
         {
             _wait.WaitForAnyElement(By.ClassName("panel-card-text"));
@@ -63,7 +75,7 @@ namespace PriorbankModule.Services.Priorbank
                 _driver
                     .FindElements(By.ClassName("panel-cards-item"))
                     .FirstOrDefault(el => el.FindElements(By.ClassName("panel-card-text"))
-                                            .FirstOrDefault(x => x.Text == _configuration.CardName) != null));
+                                            .FirstOrDefault(x => x.Text.Trim() == _configuration.CardName) != null));
         }
 
         private void WaitCardsHistory()

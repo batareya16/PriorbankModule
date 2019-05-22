@@ -4,6 +4,7 @@ using PriorbankModule.Entities;
 using PriorbankModule.Common;
 using PriorbankModule.Services.Selenium;
 using PriorbankModule.Services.Priorbank;
+using System;
 
 namespace PriorbankModule
 {

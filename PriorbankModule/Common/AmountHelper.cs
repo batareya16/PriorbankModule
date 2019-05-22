@@ -7,6 +7,8 @@ namespace PriorbankModule.Common
 {
     public static class AmountHelper
     {
+        internal static double InitialBudgetAmount { get; set; }
+
         public static string ReverseAccountAmountString(string accountAmountString)
         {
             return (-GetAccountAmount(accountAmountString)).ToString();

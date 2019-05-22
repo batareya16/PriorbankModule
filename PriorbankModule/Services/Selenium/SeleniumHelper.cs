@@ -28,7 +28,7 @@ namespace PriorbankModule.Services.Selenium
 
         public static void SendKeysInto(this IWebDriver driver, By by, string keys)
         {
-            driver.FindElement(by).SendKeys(keys);
+             driver.FindElement(by).SendKeys(keys);
         }
 
         public static bool IsExistElementByInnerText(this IWebDriver driver, string innerText)

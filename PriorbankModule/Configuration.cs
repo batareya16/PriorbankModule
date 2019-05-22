@@ -28,6 +28,9 @@ namespace PriorbankModule
         [XmlElement(ElementName = "Название карточки")]
         public string CardName = string.Empty;
 
+        [XmlElement(ElementName = "Первый запуск[b]")]
+        public bool FirstLaunch = true;
+
         [XmlElement(ElementName = "ПослЗапрБюджета[_]")]
         public DateTime LastUpdate = DateTime.Now;
 
